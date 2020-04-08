@@ -20,18 +20,16 @@ function App() {
 
   async function handleRemoveRepository(id) {
     api.delete(`repositories/${id}`).then((res) => {
-      loadRepositories();
-    });
-  }
-
-  async function loadRepositories() {
-    api.get("repositories").then((res) => {
-      setRepositories(res.data);
+      setRepositories(
+        repositories.filter((repository) => repository.id !== id)
+      );
     });
   }
 
   useEffect(() => {
-    loadRepositories();
+    api.get("repositories").then((res) => {
+      setRepositories(res.data);
+    });
   }, []);
 
   return (
